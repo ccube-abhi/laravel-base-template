@@ -1,20 +1,46 @@
 services:
-  web:
-    image: app-name:latest
+  app:
     build:
-      target: web
       context: .
-    env_file:
-      - .env
-    ports:
-      - "8000:80"
+      dockerfile: dev/php/Dockerfile
+    image: bamco-template
+    container_name: bamco-app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html
     volumes:
-      - .:/var/www/html
-    depends_on:
-      - redis
+      - ./:/var/www/html:delegated
+      - /var/www/html/vendor
+    networks:
+      - bamconet
 
   redis:
     image: redis:alpine
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - bamconet
+
+
+  nginx:
+    build:
+      context: ./dev/nginx/
+      dockerfile: Dockerfile
+    image: fsd/nginx
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - bamconet
+
+networks:
+  bamconet:
+    driver: bridge
