@@ -33,6 +33,7 @@ docker compose up -d --build
 ### 4. Laravel Setup (Inside Docker Container, for localhost setup, we can move it into Dockerfile)
 
 # Run migrations and seeders
+
 docker compose exec base-temp php artisan migrate
 docker compose exec base-temp php artisan db:seed
 
