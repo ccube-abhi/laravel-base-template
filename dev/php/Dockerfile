@@ -59,6 +59,9 @@ COPY . /var/www/html
 ENV COMPOSER_PROCESS_TIMEOUT=2000
 RUN composer install --no-interaction --prefer-dist
 
+RUN php artisan key:generate
+RUN php artisan jwt:secret
+
 # clear route & config cache
 RUN php artisan route:clear
 RUN php artisan config:clear
