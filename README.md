@@ -37,9 +37,7 @@ docker compose up -d --build
 Make sure Docker has file access permission to your project folder:
 macOS: Docker Desktop → Settings → Resources → File Sharing → Add /Applications/XAMPP/xamppfiles/htdocs/...
 
-### 4. Laravel Setup (Inside Docker Container)
-# Install dependencies (inside container)
-docker compose exec base-temp composer install
+### 4. Laravel Setup (Inside Docker Container, for localhost setup, we can move it into Dockerfile)
 
 # Generate app key and JWT secret
 docker compose exec base-temp php artisan key:generate
